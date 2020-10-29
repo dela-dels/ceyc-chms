@@ -14,11 +14,7 @@ const cvvInput = document.querySelector('.cvv__input');
 
 const formButton = document.querySelector('.form__button');
 
-<<<<<<< HEAD
 // GENERATES A 10 YEAR SPAM
-=======
-// GENERATES A 10 YEAR SPAM 
->>>>>>> b3e6de7b31bb4ce6c4e91e616803926fbe7a7d26
 window.onload = function() {
   const yearSelect = document.querySelector('.form__yearSelect');
   let currentYear = new Date().getUTCFullYear();
@@ -26,11 +22,6 @@ window.onload = function() {
   for (i = 0; i <= 10; i++) {
     let option = document.createElement('option');
     option.innerHTML = currentYear;
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> b3e6de7b31bb4ce6c4e91e616803926fbe7a7d26
     yearSelect.appendChild(option);
     currentYear += 1;
   }
@@ -76,8 +67,4 @@ function writeCVV() {
 
 function rotateCard() {
   document.querySelector('.card__container').classList.toggle('card__container--rotation');
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> b3e6de7b31bb4ce6c4e91e616803926fbe7a7d26
