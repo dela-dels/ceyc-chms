@@ -23,72 +23,22 @@ body{
 .wrapper-container{
     height: 90%;
     display: flex;
-    flex-direction: column;
-    width: 85%;
-    /* padding: 3rem; */
-    /* background-color: #3F7CCD; */
+    width: 80%;
     border-radius: 5px;
-    /* border: .7rem solid black; */
-    /* box-shadow: 0 2rem 5rem #777; */
-    /* overflow: hidden; */
+    box-shadow: 0 2rem 5rem #777;
+    overflow: hidden;
+    background-color: blue;
 }
-.headings{
-    text-align: center;
-    padding: 10px;
-}
-.sub-content{
-    display: flex;
-    width: 100%;
-    height: 100%;
-    justify-content: space-between;
-}
-
 .left-half{
-    width: 50%;
+    width: 30%;
     height: 100%;
-    
-    padding: .5rem;
+    background-color: yellow;
 }
 
-.payment__options{
-    height: 95%;
-    background-color: #FDFFFC;
-    margin: 0 auto;
-    border-radius: 10px;
-    color: black;
-    padding: 1rem;
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.534);
-}
-.card__images{
-    width: 50px;
-    height: 25px;
-    margin-right: .5rem;
-}
-
-.accordion button{
-    text-decoration: none;
-}
-
-
-
-.right-half{
-    width: 50%;
+.other-half{
+    width: 70%;
     position: relative;
-    height: 100%; 
-    padding: .5rem;
-}
-.info__details{
-    height: 95%;
-    background-color: #FDFFFC;
-    margin: 0 auto;
-    border-radius: 10px;
-    color: black;
-    padding: 1rem;
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.534);
+    height: 100%;
+    background-color: darkturquoise;
 }
 
-.info__form{
-
-}
-
-/* TAB LAYOUT */
