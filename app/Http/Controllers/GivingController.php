@@ -116,9 +116,9 @@ class GivingController extends Controller
      * @param PaymentService $paymentService
      * @return RedirectResponse
      */
-    public function cardPayment(CardPaymentRequest $request, PaymentService $paymentService)
+    public function cardPayment(Request $request, PaymentService $paymentService)
     {
-        $response = $paymentService->cardPayment($request->validated());
+        $response = $paymentService->cardPayment($request);
 
         if ($response->code == '200' && $response->status == 'vbv required') {
             Giving::whereTransactionId($request->transaction_id)
