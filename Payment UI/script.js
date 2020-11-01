@@ -14,7 +14,7 @@ const cvvInput = document.querySelector('.cvv__input');
 
 const formButton = document.querySelector('.form__button');
 
-// GENERATES A 10 YEAR SPAM 
+// GENERATES A 10 YEAR SPAM
 window.onload = function() {
   const yearSelect = document.querySelector('.form__yearSelect');
   let currentYear = new Date().getUTCFullYear();
@@ -22,7 +22,6 @@ window.onload = function() {
   for (i = 0; i <= 10; i++) {
     let option = document.createElement('option');
     option.innerHTML = currentYear;
-    
     yearSelect.appendChild(option);
     currentYear += 1;
   }

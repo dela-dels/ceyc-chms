@@ -112,7 +112,7 @@
 .form__card, .card__number, .card__holder, .cvv{
 	display: flex;
     flex-direction: column;
-
+    
 }
 .form__card{
 	height: 100%;
@@ -133,8 +133,8 @@
 	border: 1px solid rgba(63,63,63,.2);
 	border-radius: 4px;
 	padding: .8rem;
-	margin: .2rem 0 1rem 0;
-
+	margin: .2rem 0 1rem 0; 
+	
 }
 .form__input:focus, .form__select:focus{
 	outline-color: #D4EAFD;
