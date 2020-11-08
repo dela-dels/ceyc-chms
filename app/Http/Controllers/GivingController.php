@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Giving;
-use App\Services\PaymentService;
-use Carbon\Carbon;
 use Exception;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
+use App\Giving;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Services\PaymentService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 
 class GivingController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only('index');
+        $this->middleware(['auth', 'user-status'])->only('index');
     }
 
     /**
@@ -112,13 +112,13 @@ class GivingController extends Controller
     public function cardPayment(Request $request, PaymentService $paymentService)
     {
         $response = $paymentService->cardPayment($request);
-     
+
         if ($response->code == '200' && $response->status == 'vbv required') {
             Giving::whereTransactionId($request->transaction_id)
                 ->update(['payment_status' => 'Pending']);
             return redirect()->away($response->reason);
-        } 
-        
+        }
+
         if ($response->code === '000') {
             Giving::whereTransactionId($request->transaction_id)
                 ->update(['payment_status' => $response->status]);
@@ -129,7 +129,7 @@ class GivingController extends Controller
                 ->update(['payment_status' => $response->status]);
             return redirect()->route('giving.error');
     }
-    
+
     /**
      * Method to generate  random transactionId
      * of 12 digits

@@ -15,7 +15,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>
-            CEYC PORTAL - Login
+            @yield('title')
         </title>
         <link rel="shortcut icon" type="image/x-icon" href="../images/logo/favicon.ico">
 

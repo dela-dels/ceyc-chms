@@ -13,7 +13,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth', 'has-reset-default-password']);
+        $this->middleware('auth');
+        $this->middleware('user-status');
     }
 
     /**

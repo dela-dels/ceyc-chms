@@ -2,24 +2,22 @@
 
 namespace App\Http\Middleware;
 
+use App\User;
 use Closure;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class FellowshipLeaderRole
+class RedirectIfApproved
 {
     /**
      * Handle an incoming request.
      *
-     * @param  Request  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::user()->hasRole('Fellowship Leader')) {
-            return redirect()->back();
-
+        if (auth()->user()->status != User::IS_APPROVED) {
+            abort('403', 'Looks Like Your Account has not been approved. Please contact the System Administrator');
         }
         return $next($request);
     }

@@ -10,27 +10,13 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    const IS_APPROVED = 1;
+
     protected $fillable = [
         'email',
         'password',
-        'fellowship_id',
-        'department_id',
         'lastname',
         'firstname',
-        'othernames',
-        'phone',
-        'alt_phone',
-        'dob',
-        'residential_address',
-        'digital_address',
-        'school',
-        'work',
-        'gender',
         'default_password_reset_at'
     ];
 
@@ -50,7 +36,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'dob'               =>  'date'
     ];
 
      /**
@@ -72,15 +57,6 @@ class User extends Authenticatable
     }
 
      /**
-     *  This Capitalises the first letter of the value of the othernames
-     *  attribute before saving to the database
-     */
-    public function setOtherNamesAttribute($value)
-    {
-        $this->attributes['othernames'] = ucwords($value);
-    }
-
-     /**
      * This gets both first and last names and concatenates them
      *  to form the fullname attribute
      */
@@ -89,64 +65,32 @@ class User extends Authenticatable
         return "{$this->firstname} {$this->lastname}";
     }
 
-    /**
-     * Defines Relationship between the Members and a Fellowship.
-     *
-     * A member belongs to only one Fellowship
-     */
-    public function fellowship()
+    public function getStatusAttribute()
     {
-        return $this->belongsTo(Fellowship::class);
-    }
-
-    /**
-     * Defines Relationship between the Members(users) and a Cell
-     *
-     * A Member belongs to only one cell
-     */
-    public function cell()
-    {
-        return $this->belongsTo(Cell::class);
-    }
-
-     /**
-     * Defines a relationship between the Department and
-     * Members.
-     *
-     * A member belongs to a department
-     */
-    public function department()
-    {
-        return $this->belongsTo(Department::class);
+        return $this->approved;
     }
 
     /**
      * Defines a relationship between users and their roles
      */
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class)
+    // public function roles()
+    // {
+    //     return $this->belongsToMany(Role::class)
 
-                    ->withTimestamps();
-    }
+    //                 ->withTimestamps();
+    // }
 
-    public function getFellowshipNameAttribute()
-    {
-        return $this->fellowship->name;
-    }
+    // /**
+    //  * Checks if the current user has the particular role
+    //  * @param $role
+    //  * @return bool
+    //  */
+    // public function hasRole($role)
+    // {
+    //     if ($this->roles()->where('name', $role)->first()) {
+    //         return true;
+    //     }
 
-    /**
-     * Checks if the current user has the particular role
-     * @param $role
-     * @return bool
-     */
-    public function hasRole($role)
-    {
-        if ($this->roles()->where('name', $role)->first()) {
-            return true;
-        }
-
-        return false;
-    }
-
+    //     return false;
+    // }
 }
