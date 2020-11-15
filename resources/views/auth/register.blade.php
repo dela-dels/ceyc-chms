@@ -1,7 +1,9 @@
 <!-- Description -->
 @extends('layouts/fullLayoutMaster')
 
-@section('title', 'Full Layout')
+
+@section('title', 'CEYC-AC GIVING PORTAL - Register')
+
 
 @section('pageStyle')
 
@@ -22,6 +24,38 @@
                     <div class="card rounded-0 mb-0 p-2">
                         <div class="card-header pt-50 pb-1">
                             <div class="card-title">
+                                <h4 class="mb-0">
+                                    {{ __('Register') }}
+                                </h4>
+                            </div>
+                        </div>
+                        <p class="px-2">Fill the form below to create a new account.</p>
+                        <div class="card-content">
+                            <div class="card-body pt-0">
+                                <form action=" {{ route('register') }}" method="POST">
+                                    @csrf
+                                    <div class="form-group">
+                                      <label for="">First Name</label>
+                                      <input type="text" name="firstname" id="" class="form-control" placeholder="First Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Last Name</label>
+                                        <input type="text" name="lastname" id="" class="form-control" placeholder="Last Name">
+                                      </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail">Email</label>
+                                        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword">Password</label>
+                                        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required
+                                            autocomplete="new-password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password-confirm">Confirm Password</label>
+                                        <input type="password" id="password-confirm" class="form-control" placeholder="Confirm Password" name="password_confirmation"
+                                            required autocomplete="new-password">
+
                                 <h4 class="mb-0">Create Account</h4>
                             </div>
                         </div>

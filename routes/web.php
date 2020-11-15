@@ -13,12 +13,10 @@
 
 // Route content layout
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', 'Auth\LoginController@showLoginForm');
-
-// Route full layout
-// Route::get('full', 'LayoutController@full');
+Auth::routes();
 
 /**
  * Admin Resource Routes
@@ -36,6 +34,7 @@ Route::post('admin/users/roles', 'UserRoleController@assignRole')->name('user.ro
 Route::get('admin/users/roles', 'UserRoleController@index')->name('user.roles.index');
 Route::get('admin/users/roles/assign', 'UserRoleController@assignRoleForm')->name('user.roles.assign.form');
 
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('givings/dashboard', 'GivingController@index')->name('givings.dashboard');
@@ -46,18 +45,5 @@ Route::post('giving/mobile-money/process', 'GivingController@mobileMoneyPayment'
 Route::post('giving/credit-card/process', 'GivingController@cardPayment')->name('giving.card');
 Route::get('giving/credit-card/vbv-confirmation', 'GivingController@vbvConfirmation')->name('giving.vbv.confirmation');
 Route::post('giving', 'GivingController@store')->name('giving.store');
-Route::get('/', 'GivingController@showGivingForm')->name('giving.create');
+Route::get('giving', 'GivingController@showGivingForm')->name('giving.create');
 Route::get('giving/{giving}/confirm', 'GivingController@confirm')->name('giving.confirm');
-Route::get('givings/filters', 'GivingController@search')->name('givings.search');
-
-
-Route::get('v2-payment', function () {
-    return view('pages.givings.v2.step-1');
-});
-
-Route::get('/pay-ui', function () {
-    return view('pages.payment-ui.index');
-});
-
-Route::post('v2-payment/card', 'V2GivingController@cardGiving')->name('v2-card-giving');
-Route::post('v2-payment/mobile-money', 'V2GivingController@mobileMoneyGiving')->name('v2-momo-giving');

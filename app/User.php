@@ -10,19 +10,19 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    const APPROVED = 1;
-    const UNAPPROVED = 0;
+    const IS_APPROVED = 1;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
+     protected $fillable = [
         'email',
         'password',
         'lastname',
         'firstname',
+        'default_password_reset_at'
     ];
 
     /**
@@ -41,7 +41,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'dob'               =>  'date'
     ];
 
      /**
@@ -63,15 +62,6 @@ class User extends Authenticatable
     }
 
      /**
-     *  This Capitalises the first letter of the value of the othernames
-     *  attribute before saving to the database
-     */
-    public function setOtherNamesAttribute($value)
-    {
-        $this->attributes['othernames'] = ucwords($value);
-    }
-
-     /**
      * This gets both first and last names and concatenates them
      *  to form the fullname attribute
      */
@@ -80,28 +70,61 @@ class User extends Authenticatable
         return "{$this->firstname} {$this->lastname}";
     }
 
+    public function getStatusAttribute()
+    {
+        return $this->approved;
+    }
+
     /**
      * Defines a relationship between users and their roles
      */
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class)
+    // public function roles()
+    // {
+    //     return $this->belongsToMany(Role::class)
 
-                    ->withTimestamps();
-    }
+    //                 ->withTimestamps();
+    // }
+
+    // /**
+    //  * Checks if the current user has the particular role
+    //  * @param $role
+    //  * @return bool
+    //  */
+    // public function hasRole($role)
+    // {
+    //     if ($this->roles()->where('name', $role)->first()) {
+    //         return true;
+    //     }
+
+    //     return false;
+    // }
 
     /**
-     * Checks if the current user has the particular role
-     * @param $role
-     * @return bool
+     * Defines a relationship between users and their roles
      */
-    public function hasRole($role)
-    {
-        if ($this->roles()->where('name', $role)->first()) {
-            return true;
-        }
+   
+    /**
+     * Defines a relationship between users and their roles
+     */
+    // public function roles()
+    // {
+    //     return $this->belongsToMany(Role::class)
 
-        return false;
-    }
+    //                 ->withTimestamps();
+    // }
+
+    // /**
+    //  * Checks if the current user has the particular role
+    //  * @param $role
+    //  * @return bool
+    //  */
+    // public function hasRole($role)
+    // {
+    //     if ($this->roles()->where('name', $role)->first()) {
+    //         return true;
+    //     }
+
+    //     return false;
+    // }
 
 }
