@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('lastname');
             $table->string('firstname');
+            $table->boolean('approved')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
