@@ -9,8 +9,6 @@
     <div class="main-menu-content mt-3">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
             <li class="nav-item pb-1">
-                <a href="{{ route('home') }}"
-                    class="{{ request()->is('home') ? 'active' : '' }}">
                     <i></i>
                     <span class="menu-title" data-i18n="">Home</span>
                 </a>
@@ -19,11 +17,8 @@
             <li class="nav-item pb-1">
                 <a href="{{ route('givings.dashboard') }}"
                     class="{{ request()->is('givings/dashboard') ? 'active' : '' }}">
-                    <i></i>
-                    <span class="menu-title" data-i18n="">Givings</span>
-                </a>
-            </li>
-
+            <li class="nav-item pb-1">
+                <a href="{{ route('givings.dashboard') }}" class="{{ request()->is('givings/*') ? 'active' : ''  }}">
             <!-- Routes for managing a single fellowship-->
             {{-- @foreach(Auth::user()->roles as $role)
                 @if($role->name == 'Fellowship Leader')
@@ -92,8 +87,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                           class="{{ request()->is('admin/users/roles/assign') ? 'active' : '' }}">
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                            <span class="menu-title">Log Out</span>
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -102,8 +96,6 @@
                     </li>
                 </ul>
             </li>
-
-
         </ul>
     </div>
 </div>

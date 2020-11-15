@@ -16,13 +16,24 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'Auth\LoginController@showLoginForm');
+Auth::routes();
 
-// Route full layout
-Route::get('full', 'LayoutController@full');
-
+/**
+ * Admin Resource Routes
+ */
+Route::resource('admin/roles', 'RoleController');
+Route::resource('admin/users/', 'UserController');
 
 Auth::routes();
+
+Route::get('user/update/password', 'Auth\SetPasswordAfterRegisterController@showUpdatePasswordForm')
+    ->name('password-update-form');
+Route::post('user/update/password', 'Auth\SetPasswordAfterRegisterController@updatePassword')
+    ->name('password.update');
+Route::post('admin/users/roles', 'UserRoleController@assignRole')->name('user.roles.assign-role');
+Route::get('admin/users/roles', 'UserRoleController@index')->name('user.roles.index');
+Route::get('admin/users/roles/assign', 'UserRoleController@assignRoleForm')->name('user.roles.assign.form');
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -36,4 +47,3 @@ Route::get('giving/credit-card/vbv-confirmation', 'GivingController@vbvConfirmat
 Route::post('giving', 'GivingController@store')->name('giving.store');
 Route::get('giving', 'GivingController@showGivingForm')->name('giving.create');
 Route::get('giving/{giving}/confirm', 'GivingController@confirm')->name('giving.confirm');
-

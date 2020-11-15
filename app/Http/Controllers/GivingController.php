@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Services\PaymentService;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\CardPaymentRequest;
 use Illuminate\Validation\ValidationException;
 
 class GivingController extends Controller
@@ -33,6 +34,15 @@ class GivingController extends Controller
         ]);
     }
 
+    public function search(Request $request)
+    {
+       return view('pages.givings.search-results', [
+            'givings' =>  Giving::filter(
+                $request->only('status', 'start_date', 'end_date', 'reference')
+                )->get()
+       ]);
+    }
+
     /**
      * Method to display the form for giving
      */
@@ -45,13 +55,13 @@ class GivingController extends Controller
      * Method to store a newly created giving resource to database
      *
      * @param Request $request
-     * @return Response
+     * @return RedirectResponse
      * @throws ValidationException
      * @throws Exception
      */
     public function store(Request $request)
     {
-        $attributes = $this->validate($request, [
+       $attributes = $this->validate($request, [
             'full_name' => 'required',
             'email' => 'required',
             'contact' => 'required',
@@ -64,12 +74,10 @@ class GivingController extends Controller
             $attributes['giving_option'] = $attributes['giving_option'] .' - '. $attributes['partnership_arms'];
         }
 
-        $slug = Carbon::today()->format('dmyg') . bin2hex(random_bytes(5)) . Str::slug($request->full_name);
-
         $giving = Giving::create($attributes +
             [
                 'transaction_id' => $this->transactionId(),
-                'slug' => $slug
+                'slug' => $this->slug($request)
             ]);
 
         return redirect()->route('giving.confirm', compact('giving'));
@@ -77,7 +85,9 @@ class GivingController extends Controller
 
     public function confirm(Giving $giving)
     {
-        return view('pages.givings.confirm', compact('giving'));
+        return view('pages.givings.confirm', [
+            'giving' => $giving
+        ]);
     }
 
     /**
@@ -93,19 +103,17 @@ class GivingController extends Controller
             Giving::whereTransactionId($request->transaction_id)
                 ->update(['payment_status' => $response->status]);
             return redirect()->route('giving.successful');
-
-        } else {
-            Giving::whereTransactionId($request->transaction_id)
-                ->update(['payment_status' => $response->status]);
-            return redirect()->route('giving.error');
         }
 
+        Giving::whereTransactionId($request->transaction_id)
+            ->update(['payment_status' => $response->status]);
+        return redirect()->route('giving.error');
     }
 
     /**
      * Method to send request to Payswitch Api Service
      *
-     * @param Request $request
+     * @param CardPaymentRequest $request
      * @param PaymentService $paymentService
      * @return RedirectResponse
      */
@@ -127,7 +135,7 @@ class GivingController extends Controller
 
         Giving::whereTransactionId($request->transaction_id)
                 ->update(['payment_status' => $response->status]);
-            return redirect()->route('giving.error');
+        return redirect()->route('giving.error');
     }
 
     /**
@@ -136,12 +144,18 @@ class GivingController extends Controller
      *
      * @return string
      */
-    public function transactionId(): string
+    protected function transactionId(): string
     {
-        $milliseconds = (String)round(microtime(true) * 568);
-        $shuffled = str_shuffle($milliseconds);
-        $transactionId = substr($shuffled, 0, 12);
-        return $transactionId;
+        $shuffled = str_shuffle((String)round(microtime(true) * 568));
+        return substr($shuffled, 0, 12);
+    }
+
+    protected function  slug(Request $request) : string
+    {
+        return
+            Carbon::today()->format('dmyg')
+            . bin2hex(random_bytes(5))
+            . Str::slug($request->full_name);
     }
 
     public function successful()
@@ -170,5 +184,11 @@ class GivingController extends Controller
         Giving::whereTransactionId($request->transaction_id)
                     ->update(['payment_status' => $request->status]);
             return redirect()->route('giving.error');
+    }
+
+    protected function createSlug($fullName)
+    {
+        return Carbon::today()->format('dmyg') .
+            bin2hex(random_bytes(5)) . Str::slug($fullName);
     }
 }

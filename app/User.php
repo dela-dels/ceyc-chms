@@ -12,7 +12,12 @@ class User extends Authenticatable
 
     const IS_APPROVED = 1;
 
-    protected $fillable = [
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+     protected $fillable = [
         'email',
         'password',
         'lastname',
@@ -93,4 +98,33 @@ class User extends Authenticatable
 
     //     return false;
     // }
+
+    /**
+     * Defines a relationship between users and their roles
+     */
+   
+    /**
+     * Defines a relationship between users and their roles
+     */
+    // public function roles()
+    // {
+    //     return $this->belongsToMany(Role::class)
+
+    //                 ->withTimestamps();
+    // }
+
+    // /**
+    //  * Checks if the current user has the particular role
+    //  * @param $role
+    //  * @return bool
+    //  */
+    // public function hasRole($role)
+    // {
+    //     if ($this->roles()->where('name', $role)->first()) {
+    //         return true;
+    //     }
+
+    //     return false;
+    // }
+
 }
