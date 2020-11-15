@@ -72,6 +72,6 @@
 
         {{-- Include page script --}}
         @yield('scripts')
-
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
